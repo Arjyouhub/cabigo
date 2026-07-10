@@ -4,7 +4,7 @@ const Hero = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: ''
+    message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,15 +23,11 @@ const Hero = () => {
     setIsSubmitting(true);
 
     const fleetWhatsAppNumber = '918073584852';
-    let serviceText = 'Attach Car';
-    if (formData.service === 'driver') serviceText = 'Driver Opportunity';
-    if (formData.service === 'general') serviceText = 'General Partnership';
-
-    const customMsg = `Hi Cabigo Fleet, I am interested in: ${serviceText}. Details:%0A- Name: ${encodeURIComponent(formData.name)}%0A- Phone: ${encodeURIComponent(formData.phone)}%0A`;
+    const customMsg = `Hi Cabigo Fleet,%0A%0AI want to submit an inquiry:%0A- Name: ${encodeURIComponent(formData.name)}%0A- Phone: ${encodeURIComponent(formData.phone)}%0A- Message: ${encodeURIComponent(formData.message)}`;
     const waUrl = `https://wa.me/${fleetWhatsAppNumber}?text=${customMsg}`;
 
     setTimeout(() => {
-      setFormData({ name: '', phone: '', service: '' });
+      setFormData({ name: '', phone: '', message: '' });
       setIsSubmitting(false);
       window.open(waUrl, '_blank');
     }, 1000);
@@ -128,19 +124,16 @@ const Hero = () => {
               />
             </div>
             <div class="form-group">
-              <label htmlFor="widget-service">How can we help?</label>
-              <select 
-                id="widget-service" 
-                class="form-input" 
-                value={formData.service}
+              <label htmlFor="widget-message">Message</label>
+              <textarea 
+                id="widget-message" 
+                class="form-input textarea-input" 
+                placeholder="Enter your message" 
+                value={formData.message}
                 onChange={handleChange}
                 required
-              >
-                <option value="" disabled>Select an option</option>
-                <option value="attach">Attach My Car to Uber</option>
-                <option value="driver">Join as a Driver</option>
-                <option value="general">General Partnership</option>
-              </select>
+                style={{ minHeight: '80px' }}
+              />
             </div>
             <button 
               type="submit" 
